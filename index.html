@@ -1,0 +1,773 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Manipulação de Erros e Executáveis
+  </title>
+
+  <!-- Reveal.js -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
+
+  <!-- Tema -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/night.css">
+
+  <!-- Highlight -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/monokai.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+
+    /* =========================
+       FUNDO
+    ========================== */
+
+    body {
+
+      font-family: Arial, sans-serif;
+
+      background:
+      linear-gradient(
+      135deg,
+      #090909,
+      #121212,
+      #1b1330
+      );
+
+      background-image:
+      radial-gradient(
+      rgba(124,77,255,0.09) 1px,
+      transparent 1px
+      );
+
+      background-size: 28px 28px;
+
+    }
+
+    /* =========================
+       ANIMAÇÃO
+    ========================== */
+
+    section {
+
+      animation: slideFade 0.8s ease;
+
+    }
+
+    @keyframes slideFade {
+
+      from {
+
+        opacity: 0;
+        transform: translateY(20px);
+
+      }
+
+      to {
+
+        opacity: 1;
+        transform: translateY(0);
+
+      }
+
+    }
+
+    /* =========================
+       TÍTULO PRINCIPAL
+    ========================== */
+
+    .titulo-principal {
+
+      font-size: 60px !important;
+
+      font-weight: 800 !important;
+
+      color: white;
+
+      text-transform: uppercase;
+
+      letter-spacing: 2px;
+
+      margin-bottom: 15px !important;
+
+      text-shadow:
+      0 0 15px rgba(124,77,255,0.6),
+      0 0 40px rgba(124,77,255,0.2);
+
+    }
+
+    .subtitulo-principal {
+
+      font-size: 30px !important;
+
+      color: #c3a6ff;
+
+      margin-bottom: 40px !important;
+
+      font-weight: 300 !important;
+
+    }
+
+    .linha {
+
+      width: 230px;
+
+      height: 4px;
+
+      margin: auto;
+
+      margin-bottom: 40px;
+
+      border-radius: 10px;
+
+      background: linear-gradient(
+      90deg,
+      #7c4dff,
+      #00e5ff
+      );
+
+      box-shadow:
+      0 0 20px rgba(124,77,255,0.6);
+
+    }
+
+    /* =========================
+       CAIXAS
+    ========================== */
+
+    .caixa-capa,
+    .caixa {
+
+      background: rgba(255,255,255,0.05);
+
+      border-radius: 20px;
+
+      padding: 30px;
+
+      border: 1px solid rgba(255,255,255,0.08);
+
+      box-shadow:
+      0 0 25px rgba(0,0,0,0.35);
+
+      backdrop-filter: blur(10px);
+
+    }
+
+    .caixa-capa {
+
+      width: 75%;
+
+      margin: auto;
+
+    }
+
+    .caixa {
+
+      margin-top: 20px;
+
+      border-left: 5px solid #7c4dff;
+
+    }
+
+    /* =========================
+       DISCIPLINA E NOMES
+    ========================== */
+
+    .disciplina {
+
+      font-size: 24px !important;
+
+      color: #d8c9ff;
+
+      margin-bottom: 20px !important;
+
+      font-weight: bold;
+
+    }
+
+    .nomes {
+
+      font-size: 20px !important;
+
+      color: #d0d0d0;
+
+      line-height: 1.7;
+
+    }
+
+    /* =========================
+       TÍTULOS DOS SLIDES
+    ========================== */
+
+    .titulo {
+
+      color: #b388ff;
+
+      font-size: 44px !important;
+
+      margin-bottom: 30px !important;
+
+      text-shadow:
+      0 0 12px rgba(124,77,255,0.4);
+
+    }
+
+    .icone {
+
+      margin-right: 14px;
+
+      color: #7c4dff;
+
+    }
+
+    /* =========================
+       TEXTO
+    ========================== */
+
+    p {
+
+      font-size: 28px;
+
+    }
+
+    li {
+
+      font-size: 28px;
+
+      margin-bottom: 15px;
+
+    }
+
+    .destaque {
+
+      color: #00e676;
+
+      font-weight: bold;
+
+      text-shadow:
+      0 0 10px rgba(0,230,118,0.5);
+
+    }
+
+    .erro {
+
+      color: #ff5252;
+
+      font-weight: bold;
+
+      text-shadow:
+      0 0 10px rgba(255,82,82,0.4);
+
+    }
+
+    /* =========================
+       CÓDIGOS
+    ========================== */
+
+    pre {
+
+      border-radius: 18px !important;
+
+      border: 1px solid rgba(255,255,255,0.08);
+
+      box-shadow:
+      0 0 25px rgba(0,0,0,0.45);
+
+      padding: 10px !important;
+
+    }
+
+    code {
+
+      font-size: 20px;
+
+    }
+
+    /* =========================
+       SETAS VISUAIS
+    ========================== */
+
+    .fluxo {
+
+      font-size: 34px;
+
+      line-height: 2.2;
+
+      text-align: center;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="reveal">
+
+<div class="slides">
+
+  <!-- CAPA -->
+  <section>
+
+    <h1 class="titulo-principal">
+      Manipulação de Erros
+    </h1>
+
+    <h2 class="subtitulo-principal">
+      Executáveis e Elixir Script
+    </h2>
+
+    <div class="linha"></div>
+
+    <div class="caixa-capa">
+
+      <p class="disciplina">
+        <i class="fa-solid fa-laptop-code"></i>
+        Tópicos Especiais em Programação
+      </p>
+
+      <p class="nomes">
+        Adállya Oliveira • João Gabriel •
+        Kleyvison Thomas • Letícia Ayres •
+        Mylena Coelho • Sarah Maria •
+        Ysadora Moura
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- INTRODUÇÃO -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-triangle-exclamation icone"></i>
+      Por que tratar erros?
+    </h2>
+
+    <div class="caixa">
+
+      <p class="fragment">
+        Todo sistema está sujeito a falhas.
+      </p>
+
+      <p class="fragment">
+        O importante não é evitar erros,
+        mas tratá-los corretamente.
+      </p>
+
+      <p class="fragment destaque">
+        Elixir foi criado com foco
+        em tolerância a falhas.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- O QUE É ELIXIR -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-microchip icone"></i>
+      O que é Elixir?
+    </h2>
+
+    <div class="caixa">
+
+      <ul>
+
+        <li class="fragment">
+          Linguagem funcional moderna
+        </li>
+
+        <li class="fragment">
+          Executada na máquina virtual Erlang (BEAM)
+        </li>
+
+        <li class="fragment">
+          Alta concorrência
+        </li>
+
+        <li class="fragment">
+          Escalabilidade e robustez
+        </li>
+
+      </ul>
+
+    </div>
+
+  </section>
+
+  <!-- FILOSOFIA -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-shield-halved icone"></i>
+      Filosofia do Elixir
+    </h2>
+
+    <div class="caixa">
+
+      <p class="fragment">
+        Elixir prefere retornos previsíveis
+        ao invés de falhas inesperadas.
+      </p>
+
+      <p class="fragment destaque">
+        {:ok, resultado}
+      </p>
+
+      <p class="fragment erro">
+        {:error, motivo}
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- COMO O ELIXIR TRATA -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-code-branch icone"></i>
+      Como o Elixir trata erros?
+    </h2>
+
+    <div class="caixa">
+
+      <p class="fragment">
+        Em muitas linguagens,
+        um erro pode interromper o sistema.
+      </p>
+
+      <p class="fragment">
+        No Elixir, o retorno normalmente é controlado.
+      </p>
+
+<pre class="fragment"><code class="language-elixir">
+{:ok, valor}
+{:error, motivo}
+</code></pre>
+
+    </div>
+
+  </section>
+
+  <!-- TUPLAS -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-cubes icone"></i>
+      Entendendo as Tuplas
+    </h2>
+
+    <div class="caixa">
+
+      <p class="fragment">
+        As tuplas armazenam múltiplos valores.
+      </p>
+
+      <p class="fragment">
+        O primeiro informa o status.
+      </p>
+
+      <p class="fragment">
+        O segundo contém o resultado ou erro.
+      </p>
+
+<pre class="fragment"><code class="language-elixir">
+{:ok, 10}
+{:error, "Falha"}
+</code></pre>
+
+    </div>
+
+  </section>
+
+  <!-- FLUXO -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-diagram-project icone"></i>
+      Fluxo do Tratamento
+    </h2>
+
+    <div class="caixa">
+
+      <div class="fragment fluxo">
+
+        Usuário digita valor
+
+        <br>↓
+
+        <br>
+
+        Função recebe entrada
+
+        <br>↓
+
+        <br>
+
+        Sistema verifica erro
+
+        <br>↓
+
+        <br>
+
+        <span class="destaque">
+          {:ok, resultado}
+        </span>
+
+        <br>
+
+        ou
+
+        <br>
+
+        <span class="erro">
+          {:error, motivo}
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- EXEMPLO VISUAL -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-terminal icone"></i>
+      Exemplo Visual
+    </h2>
+
+    <div class="caixa">
+
+      <div class="fragment fluxo">
+
+        10 / 0
+
+        <br>↓
+
+        <br>
+
+        Sistema identifica erro
+
+        <br>↓
+
+        <br>
+
+        <span class="erro">
+          {:error, "Divisão por zero"}
+        </span>
+
+        <br><br>
+
+        Sistema continua funcionando
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FUNÇÃO -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-code icone"></i>
+      Exemplo de tratamento
+    </h2>
+
+<pre><code class="language-elixir">
+def dividir(a, b) do
+
+  if b == 0 do
+    {:error, "Divisão por zero"}
+
+  else
+    {:ok, a / b}
+
+  end
+
+end
+</code></pre>
+
+  </section>
+
+  <!-- CASE -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-terminal icone"></i>
+      Uso do case
+    </h2>
+
+<pre><code class="language-elixir">
+case dividir(10, 0) do
+
+  {:ok, resultado} ->
+    IO.puts(resultado)
+
+  {:error, motivo} ->
+    IO.puts(motivo)
+
+end
+</code></pre>
+
+  </section>
+
+  <!-- TRY -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-bug icone"></i>
+      Try / Rescue
+    </h2>
+
+<pre><code class="language-elixir">
+try do
+
+  10 / 0
+
+rescue
+
+  ArithmeticError ->
+    IO.puts("Erro matemático")
+
+end
+</code></pre>
+
+  </section>
+
+  <!-- ESCRIPT -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-gears icone"></i>
+      O que é Escript?
+    </h2>
+
+    <div class="caixa">
+
+      <p class="fragment">
+        Ferramenta para gerar executáveis.
+      </p>
+
+      <p class="fragment">
+        Permite executar aplicações no terminal.
+      </p>
+
+      <p class="fragment">
+        Facilita distribuição do sistema.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- BUILD -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-desktop icone"></i>
+      Gerando Executável
+    </h2>
+
+<pre><code class="language-bash">
+mix escript.build
+</code></pre>
+
+  </section>
+
+  <!-- CONCLUSÃO -->
+  <section>
+
+    <h2 class="titulo">
+      <i class="fa-solid fa-server icone"></i>
+      Conclusão
+    </h2>
+
+    <div class="caixa">
+
+      <p class="fragment">
+        Elixir possui tratamento de erros eficiente.
+      </p>
+
+      <p class="fragment">
+        O escript facilita a criação de executáveis.
+      </p>
+
+      <p class="fragment">
+        A linguagem prioriza estabilidade e confiabilidade.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- FINAL -->
+  <section>
+
+    <h1 class="titulo-principal">
+      Obrigada!! :)
+    </h1>
+
+  </section>
+
+</div>
+
+</div>
+
+<!-- Reveal.js -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+
+<!-- Highlight -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/highlight/highlight.js"></script>
+
+<script>
+
+Reveal.initialize({
+
+  hash: true,
+
+  transition: 'fade',
+
+  backgroundTransition: 'fade',
+
+  transitionSpeed: 'slow',
+
+  controls: true,
+
+  progress: true,
+
+  center: true,
+
+  slideNumber: true,
+
+  plugins: [ RevealHighlight ]
+
+});
+
+</script>
+
+</body>
+
+</html>
+```
